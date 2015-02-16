@@ -1660,7 +1660,13 @@ ifneq ($(TARGET_UNIFIED_DEVICE),)
     endif
 endif
 
-ifeq ($(Bliss_Build_Block),0)
+ifneq ($(BLISS_BUILD_BLOCK),0)
+ifneq ($(BLISS_BUILD_BLOCK),1)
+ BLISS_BUILD_BLOCK := 1
+endif
+endif
+
+ifeq ($(BLISS_BUILD_BLOCK),0)
 $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 	@echo "$(OTA_FROM_TARGET_SCRIPT)" > $(PRODUCT_OUT)/ota_script_path
 	@echo "$(override_device)" > $(PRODUCT_OUT)/ota_override_device
@@ -1675,7 +1681,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 endif
 
-ifeq ($(Bliss_Build_Block),1)
+ifeq ($(BLISS_BUILD_BLOCK),1)
 $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 	@echo "$(OTA_FROM_TARGET_SCRIPT)" > $(PRODUCT_OUT)/ota_script_path
 	@echo "$(override_device)" > $(PRODUCT_OUT)/ota_override_device
