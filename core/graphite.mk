@@ -13,23 +13,17 @@
 # limitations under the License.
 #
 
-ifneq (1,$(words $(filter $(LOCAL_DISABLE_GRAPHITE),$(LOCAL_MODULE))))
-ifdef LOCAL_CONLYFLAGS
-LOCAL_CONLYFLAGS += $(GRAPHITE_FLAGS)
+GRAPHITE_FLAGS := -fgraphite,-floop-flatten,-floop-parallelize-all,-ftree-loop-linear,-floop-interchange,-floop-strip-mine,-floop-block
+
+ifdef LOCAL_CFLAGS
+LOCAL_CFLAGS += $(call cc-option,$(GRAPHITE_FLAGS))
 else
-LOCAL_CONLYFLAGS := $(GRAPHITE_FLAGS)
+LOCAL_CFLAGS := $(call cc-option,$(GRAPHITE_FLAGS))
 endif
 
 ifdef LOCAL_CPPFLAGS
-LOCAL_CPPFLAGS += $(GRAPHITE_FLAGS)
+LOCAL_CFLAGS += $(call cpp-option,$(GRAPHITE_FLAGS))
 else
-LOCAL_CPPFLAGS := $(GRAPHITE_FLAGS)
+LOCAL_CPPFLAGS := $(call cpp-option,$(GRAPHITE_FLAGS))
 endif
-
-ifndef LOCAL_LDFLAGS
-LOCAL_LDFLAGS  := $(GRAPHITE_FLAGS)
-else
-LOCAL_LDFLAGS  += $(GRAPHITE_FLAGS)
-endif
-endif
-#####
+####
